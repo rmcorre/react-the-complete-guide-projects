@@ -31,11 +31,36 @@ const cartReducer = (state, action) => {
       updatedItems = state.items.concat(action.item); //returns new array
     }
 
+    console.log(updatedItems);
+    console.log(updatedTotalAmount);
+
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
     };
   }
+
+  if (action.type === 'REMOVE') {
+    const existingCartItemIndex = state.items.findIndex(
+      (item) => item.id === action.id
+    );
+    const existingItem = state.items[existingCartItemIndex];
+    const updatedTotalAmount = state.totalAmount - existingItem.price;
+    let updatedItems;
+    if (existingItem.amount === 1) {
+      updatedItems = state.items.filter((item) => item.id !== action.id);
+    } else {
+      const updatedItem = { ...existingItem, amount: existingItem.amount - 1 };
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    }
+
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount,
+    };
+  }
+
   return defaultCartState;
 };
 
@@ -45,6 +70,10 @@ const CartProvider = (props) => {
     defaultCartState
   );
 
+  console.log(cartState);
+
+  //These handlers are defined here instead of in cart-context because the implementation
+  //of the cart reducer is in this file as well
   const addItemToCartHandler = (item) => {
     dispatchCartAction({ type: 'ADD', item: item });
   };
@@ -53,6 +82,8 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: 'REMOVE', id: id });
   };
 
+  //Redefining cart-context with implementations of addItem and removeItem
+  //This will be used as the context for the CartContext.Provider
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
@@ -60,7 +91,10 @@ const CartProvider = (props) => {
     removeItem: removeItemFromCartHandler,
   };
 
+  console.log(cartContext);
+
   return (
+    //value: the context exposed by the CartProvider
     <CartContext.Provider value={cartContext}>
       {props.children}
     </CartContext.Provider>
