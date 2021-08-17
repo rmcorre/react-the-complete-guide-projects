@@ -37,3 +37,26 @@ This helps to identify your custom hooks from React hooks.
 The function name must start with "use."
 This is is required by React.
 Omit the hyphen.
+
+### How custom hooks are bound to compenents
+
+A binding is created by React where the custom hook is used
+
+const ForwardCounter = () => {
+useCounter();
+...
+}
+
+In the above snippet, useCounter() is used inside the
+ForwardCounter component, therefore React creates a binding
+to The ForwardCounter component.
+
+### State in custom hooks
+
+If useState() is used in a custom hook, that state is specific
+to the component the custom hook is used in.
+It is not shared accross components.
+Each component where the custom hook is used in will get
+it's own state, operating individually, from the other components.
+
+## A More Realistic Example
