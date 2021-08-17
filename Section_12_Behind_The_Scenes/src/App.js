@@ -8,11 +8,30 @@ function App() {
   console.log('APP RUNNING');
 
   const [showParagraph, setShowParagraph] = useState(false);
+  const [allowToggle, setAllowToggle] = useState(true);
 
-  //Use useCallback if you know a function should never change
+  const allowedToggleHandler = () => {
+    setAllowToggle(true);
+  };
+
+  //Anytime a component is re-evaluated, its functions are re-created.
+  //useCallback re-creates the function and stores it in React memory.
+  //Now, when a component is re-evaluated, any function with the useCallback hook
+  //will not be re-created.
+  //However, functions that have outside variables whose value might change
+  //need to update those variables from the last time it was stored
+
+  //Use useCallback if you know a function should never change and shouldn't be re-created.
+  //No dependencies if there are no outside variables
+  //Include outside variables in the dependency array if the function uses outside variables
+  //Those variables should be updated everytime they change
+  //If they don't change, the function isn't recreated
+  //The function is re-created only for the variables in the dependency array that change
   const toggleParagraphHandler = useCallback(() => {
-    setShowParagraph((prevShowParagraph) => !prevShowParagraph);
-  }, []);
+    if (allowToggle) {
+      setShowParagraph((prevShowParagraph) => !prevShowParagraph);
+    }
+  }, [allowToggle]);
 
   return (
     <div className="app">
