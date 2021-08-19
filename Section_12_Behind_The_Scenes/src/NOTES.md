@@ -1,5 +1,53 @@
 # How React Works Behind the scenes
 
+Link to [slides](./slides/slides.pdf)
+
+## Intro
+
+React determines how the component tree currently looks like
+and what it should look like.
+
+ReactDOM receives the differences (i.e. required changes) and
+then manipulates the real DOM.
+
+Re-evaluating components !== re-rendering the DOM.
+
+Components are re-evaluated whenever props, state, or context
+changes. Then, React executes the component function again if
+there are any changes.
+
+Changes to the real DOM are only made for differences between
+evaluations. To be specific, changes to the real DOM are only
+in those places where there are differences.
+
+So the real DOM is not changed frequently, it is changed
+rarely and only when needed. Making a virtual comparison
+between the current state and the previous state is fairly
+cheap and easy to do; it happens only in memory.
+
+Reaching out to the real DOM that is rendered in the browser
+is a performance intensive task.
+
+## Virtual Diffing
+
+<div style="background: gray">
+  <p><i>previous evaluation result</i></p>
+  <h2 style="color: black"> Hi there!</h2>
+</div>
+
+Then some state changes and we want to show a new paragraph
+
+<div style="background: gray">
+  <p><i>current evaluation result</i></p>
+  <h2 style="color: black">Hi there!</h2>
+  <p style="color: black">This is new!</p>
+</div>
+
+In this case, React would determine that the difference between both
+snapshots is the <p style="color: black">This is new!</p> and would
+report this change to ReactDOM so that ReactDom can update the real
+DOM and insert this paragraph.
+
 ## React.memo() and useCallback() summary
 
 Use React.memo(Component/that/should/not/be/re-executed) to avoid re-execution of child components
