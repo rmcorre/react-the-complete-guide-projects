@@ -10,10 +10,18 @@ function App() {
   const [showParagraph, setShowParagraph] = useState(false);
   const [allowToggle, setAllowToggle] = useState(true);
 
+  //There are no dependencies for the useCallback()
+  //so allowedToggleHandler is created only once
+  //when the App first executes.
   const allowedToggleHandler = useCallback(() => {
     setAllowToggle(true);
   }, []);
 
+  //Because allowToggle never changes
+  //this function is only created when the App first starts
+  //therefore never triggering a state change in the Button
+  //component where it is used as a prop and preventing
+  //Button from re-executing and re-rendering.
   const toggleParagraphHandler = useCallback(() => {
     setShowParagraph((prevShowParagraph) => !prevShowParagraph);
   }, [allowToggle]);
