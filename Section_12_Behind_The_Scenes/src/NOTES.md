@@ -31,12 +31,16 @@ is a performance intensive task.
 
 ## Virtual Diffing
 
+![Virtual Diffing](../img/virtualDiffing.png 'Virtual Diffing')
+
+#### Output
+
 <div style="background: gray">
   <p><i>previous evaluation result</i></p>
   <h2 style="color: black"> Hi there!</h2>
 </div>
 
-Then some state changes and we want to show a new paragraph
+<p>Then some state changes and we want to show a new paragraph</p>
 
 <div style="background: gray">
   <p><i>current evaluation result</i></p>
