@@ -4,6 +4,7 @@ Link to [slides](./slides/slides.pdf)
 
 ## Intro
 
+React evaluates the components:
 React determines how the component tree currently looks like
 and what it should look like.
 
@@ -56,6 +57,7 @@ Triggering a re-evaluation of the parent component causes a re-evaluation of
 the child components and all other components in the component tree.
 
 This poses a question: isn't this bad for performance?
+
 For simple apps this will not matter as React is optimized for that.
 Nonetheless, in bigger apps you might want to optimize that.
 Therefore, as a developer you should tell React that it should re-execute
@@ -65,7 +67,7 @@ How do you tell React that a component shoud be limited in re-execution.
 Go to the file for the component and wrap the component export with React.memo();
 
 <code>
-const DemoOutput = () => {
+const DemoOutput = (props) => {
   ...
 }
 
@@ -74,18 +76,19 @@ export default React.memo(DemoOutput);
 
 ## React.memo()
 
-Use React.memo() to avoid re-execution of child components when no state has changed.
+Use React.memo() to avoid re-execution of child components when no state in the
+child component has changed.
 
 What does React.memo() do?
 For the code snippet above, React would look at the previous props and compare it with
-the new props, and only if the value of a prop changed the component should be re-executed
-and re-evaluated. If the parent component's changed and the prop values for the child component
-did not changed, then child component re-execution will be skipped.
+the new props, and only if the value of a prop changed, the component should be re-executed
+and re-evaluated. If the parent components changed and the prop values for the child components
+did not change, then child component re-execution will be skipped.
 
 If a parent component is not re-executed, a child component will not be re-executed.
 
 Then why not use React.memo() on all components if it allows us to optimize them?
-Because this optimization comes at a cost. The memo methods tells React that whenever
+Because this optimization comes at a cost. The memo() method tells React that whenever
 the parent component changed it should go to the child component and compare the new
 prop values to the previous prop values therefore React needs to store the previous prop
 values and it needs to make that comparison and that also has it's own performance cost.
@@ -93,7 +96,7 @@ So, the use of React.memo() depends on the component you are applying it to and 
 is worth it or not.
 
 If you have a component where you know it's going to change or it's props values are going to
-change with every re-evaluation of the parent component anyways, then React memo doesn't make
+change with every re-evaluation of the parent component anyways, then memo() doesn't make
 a lot of sense.
 
 Remember, reference values, like arrays and objects (a function is an object), are an address, or pointer, to that object.
@@ -154,10 +157,8 @@ This is where useCallback is useful.
 
 ## useCallback()
 
-useCallback() will save a function of our choice somewhere in React's internal storage and will always
-reuse the function when the function wrapped with useCallback() is re-executed.
-useCallback will tell React to store a function and not re-create it as long as the dependencies in the
-dependency array didn't change.
+useCallback() will save a function of our choice somewhere in React's internal storage and will always reuse the function when the function wrapped with useCallback() is re-executed.
+useCallback will tell React to store a function and not re-create it as long as the dependencies in the dependency array didn't change.
 
 However, functions that have outside variables whose value might change
 need to update those variables from the last time it was stored
