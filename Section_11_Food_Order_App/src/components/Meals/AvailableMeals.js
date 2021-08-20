@@ -38,10 +38,15 @@ const AvailableMeals = () => {
           price: responseData[key].price,
         });
       }
+
+      //We have are data, so set meals
       setMeals(loadedMeals);
+
+      //Loading is over, set isLoading to false to remove it from the DOM
       setIsLoading(false);
     };
 
+    //Because fetchMeals() returns a promise, we use catch() like this
     fetchMeals().catch((error) => {
       setIsLoading(false);
       setHttpError(error.message);
