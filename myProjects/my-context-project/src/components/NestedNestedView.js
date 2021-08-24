@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import AuthContextProvider from '../store/auth-context';
-import classes from './NestedNested.module.css';
+import classes from './View.module.css';
 
 const NestedNestedView = () => {
   const ctx = useContext(AuthContextProvider);
