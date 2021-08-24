@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+//Default context
 const AuthContext = React.createContext({
   isLoggedIn: false,
   setIsLoggedIn: () => {},
@@ -24,6 +25,7 @@ export const AuthContextProvider = (props) => {
 
   return (
     <AuthContext.Provider
+      //Updating default context
       value={{
         isLoggedIn: isLoggedIn,
         setIsLoggedIn: setIsLoggedIn,
