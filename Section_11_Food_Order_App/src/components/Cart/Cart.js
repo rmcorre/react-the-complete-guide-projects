@@ -8,6 +8,7 @@ import classes from './Cart.module.css';
 
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
+
   const [isCheckout, setIsCheckout] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [didSubmit, setDidSubmit] = useState(false);

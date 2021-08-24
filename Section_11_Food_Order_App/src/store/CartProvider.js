@@ -31,9 +31,6 @@ const cartReducer = (state, action) => {
       updatedItems = state.items.concat(action.item); //returns new array
     }
 
-    console.log(updatedItems);
-    console.log(updatedTotalAmount);
-
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
@@ -90,7 +87,7 @@ const CartProvider = (props) => {
     dispatchCartAction({ type: 'CLEAR' });
   };
 
-  //Redefining cart-context with implementations of addItem and removeItem
+  //Redefining cart-context with implementations of addItem, removeItem, and clearCart
   //This will be used as the context for the CartContext.Provider
   const cartContext = {
     items: cartState.items,
